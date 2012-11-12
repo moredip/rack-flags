@@ -19,9 +19,15 @@ TeeDubFeatureFlags::Defaults.load_from( File.expand_path('../flags.yaml',__FILE_
 
 app = Rack::Builder.new do
   use TeeDubFeatureFlags::RackMiddleware
+
+  map '/feature_flags' do
+    run TeeDubFeatureFlags::AdminApp.new
+  end
+
   map '/' do 
     run App
   end
+
 end
 
 run app
