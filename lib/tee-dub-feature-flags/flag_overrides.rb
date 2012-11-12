@@ -1,5 +1,5 @@
 module TeeDubFeatureFlags
-  class Flags
+  class FlagOverrides
     def self.from_cookie(flag_string)
       new(flag_string)
     end

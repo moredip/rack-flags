@@ -1,0 +1,6 @@
+foo: 
+  description: This is my first feature flag
+  default: true
+bar: 
+  description: another flag
+  default: false

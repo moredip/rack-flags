@@ -11,9 +11,9 @@ module TeeDubFeatureFlags
       req = Rack::Request.new(env)
       raw_flags = req.cookies[COOKIE_NAME]
       if raw_flags
-        env[ENV_KEY] = Flags.from_cookie(raw_flags)
+        env[ENV_KEY] = FlagOverrides.from_cookie(raw_flags)
       else
-        env[ENV_KEY] = Flags.create_empty
+        env[ENV_KEY] = FlagOverrides.create_empty
       end
 
       status,headers,body = @app.call(env)
