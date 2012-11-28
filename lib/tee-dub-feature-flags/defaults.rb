@@ -30,6 +30,5 @@ module TeeDubFeatureFlags
       end
       flags
     end
-
   end
 end

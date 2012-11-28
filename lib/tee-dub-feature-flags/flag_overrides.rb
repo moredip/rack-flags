@@ -44,5 +44,21 @@ module TeeDubFeatureFlags
     def unset(flag_name)
       @flags[flag_name.to_sym] = false
     end
+
+    def clear(flag_name)
+      @flags.delete(flag_name.to_sym)
+    end
+
+    def update(flag_name,flag_value)
+      case flag_value
+      when nil
+        clear(flag_name)
+      when true
+        set(flag_name)
+      else
+        unset(flag_name)
+      end
+    end
+
   end
 end

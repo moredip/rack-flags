@@ -1,16 +1,14 @@
-$LOAD_PATH << File.expand_path('../lib', __FILE__)
+$LOAD_PATH << File.expand_path('../../lib', __FILE__)
 
 require 'sinatra/base'
 require 'tee-dub-feature-flags'
+
+require 'pry'
 
 class App < Sinatra::Base  
 
   get(/.+/) do
     flags = TeeDubFeatureFlags::FlagOverrides.from_env(env)
-
-    flags.set('foo')
-    flags.unset('bar')
-
     "hello, world. Cookie Flags:<br/>#{flags.all_flags.inspect}"
   end
 end
