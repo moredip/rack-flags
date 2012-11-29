@@ -3,6 +3,7 @@ require 'tee-dub-feature-flags/defaults'
 require 'tee-dub-feature-flags/flag_overrides'
 require 'tee-dub-feature-flags/derived_flags'
 
+require 'tee-dub-feature-flags/config'
 require 'tee-dub-feature-flags/reader'
 
 require 'tee-dub-feature-flags/rack_middleware'

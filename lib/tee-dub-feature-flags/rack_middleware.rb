@@ -3,7 +3,7 @@ module TeeDubFeatureFlags
     COOKIE_NAME = 'tee-dub-feature-flags'
     ENV_KEY = 'tee-dub-feature-flags'
 
-    def initialize(app)
+    def initialize(app,args)
       @app = app
     end
 
@@ -30,3 +30,18 @@ module TeeDubFeatureFlags
 
   end
 end
+
+module TeeDub module FeatureFlags
+  class RackMiddleware
+    ENV_KEY = 'x-tee-dub-feature-flags.reader'
+
+    def initialize( app, args )
+      yaml_path = args.fetch( :yaml_path ){ raise ArgumentError.new( 'yaml_path must be provided' ) }
+      @config = Config.load( yaml_path )
+    end
+
+    def call( env )
+      DerivedFlags.new( @config.flags )
+    end
+  end
+end end
