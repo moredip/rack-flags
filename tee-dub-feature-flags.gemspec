@@ -16,8 +16,12 @@ Gem::Specification.new do |gem|
   gem.version       = TeeDubFeatureFlags::VERSION
 
   gem.add_dependency( "rack", ["~>1.4"] )
+  gem.add_dependency( "sinatra", ["~>1.3"] )
 
-  gem.add_development_dependency( "sinatra" ) # for example app
-  gem.add_development_dependency( "pry" )
   gem.add_development_dependency( "pry-debugger" )
+
+  gem.add_development_dependency( "rspec-core" )
+  gem.add_development_dependency( "rspec-expectations" )
+  gem.add_development_dependency( "rr" )
+  gem.add_development_dependency( "capybara" )
 end
