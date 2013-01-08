@@ -70,7 +70,22 @@ describe 'reading feature flags in an app' do
       get '/'
       last_response.body.should == 'foo is on; bar is off'
     end
+  end
 
+  context 'foo defaults to false, bar defaults to true' do
+    let( :config_contents ) do
+      <<-EOS
+      foo: 
+        default: false
+      bar: 
+        default: true
+      EOS
+    end
+
+    it 'should interpret foo as off and bar as on' do
+      get '/'
+      last_response.body.should == 'foo is off; bar is on'
+    end
   end
 
 end
