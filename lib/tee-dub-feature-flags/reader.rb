@@ -3,6 +3,10 @@ module TeeDub module FeatureFlags
   BaseFlag = Struct.new(:name,:description,:default)
 
   class Reader
+    def self.blank_reader
+      new( [], {} )
+    end
+
     def initialize( base_flags, overrides )
       @base_flags = load_base_flags( base_flags )
       @overrides = overrides

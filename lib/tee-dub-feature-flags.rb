@@ -12,7 +12,7 @@ require 'tee-dub-feature-flags/admin_app'
 module TeeDub
   module FeatureFlags
     def self.for_env(env)
-      env[RackMiddleware::ENV_KEY]
+      env[RackMiddleware::ENV_KEY] || Reader.blank_reader
     end
   end
 end

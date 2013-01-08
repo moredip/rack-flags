@@ -7,7 +7,12 @@ module TeeDub module FeatureFlags
       TeeDub::FeatureFlags.for_env(fake_env).should == 'fake flags from env'
     end
 
-    it 'returns a generic empty reader if none is in the env'
+    it 'returns a generic empty reader if none is in the env' do
+      fake_env = {}
+      reader = TeeDub::FeatureFlags.for_env(fake_env)
+      reader.should_not be_nil
+      reader.should respond_to(:on?)
+    end
   end
 end end
 
