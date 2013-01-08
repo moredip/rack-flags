@@ -12,6 +12,10 @@ module TeeDub module FeatureFlags
       @overrides = overrides
     end
 
+    def base_flags
+      @base_flags.values.inject({}) { |h,flag| h[flag.name] = flag.default; h }
+    end
+
     def on?(flag_name)
       flag_name = flag_name.to_sym
 

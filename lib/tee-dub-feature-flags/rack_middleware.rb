@@ -3,7 +3,7 @@ module TeeDubFeatureFlags
     COOKIE_NAME = 'tee-dub-feature-flags'
     ENV_KEY = 'tee-dub-feature-flags'
 
-    def initialize(app,args)
+    def initialize(app)
       @app = app
     end
 

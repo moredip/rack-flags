@@ -14,6 +14,8 @@ module TeeDub module FeatureFlags
     context 'no overrides' do
       let( :overrides ){ {} }
 
+      its(:base_flags){ should == {usually_on: true, usually_off: false} }
+
       specify 'on? is true for a flag which is on by default' do
         subject.on?( :usually_on ).should be_true
       end
