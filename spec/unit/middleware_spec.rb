@@ -46,15 +46,7 @@ module TeeDub module FeatureFlags
         fake_env[RackMiddleware::ENV_KEY].should == 'fake derived flags'
       end
 
-      xit 'creates an overrides reader' do
-        mock_out_config_loading
-
-        fake_env = :fake_env
-        mock(OverridesReader).for_env( fake_env )
-
-        middleware = create_middleware()
-        middleware.call( fake_env )
-      end
+      it 'reads overrides from cookies'
 
       it 'passes the overrides into the reader'
 

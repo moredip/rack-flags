@@ -88,4 +88,22 @@ describe 'reading feature flags in an app' do
     end
   end
 
+  context 'foo and bar both default to true, bar is overridden to false' do
+    let( :config_contents ) do
+      <<-EOS
+      foo: 
+        default: true
+      bar: 
+        default: true
+      EOS
+    end
+
+    let( :feature_flag_cookie){ "!bar" }
+
+    xit 'should interpret foo as on and bar as off' do
+      get '/'
+      last_response.body.should == 'foo is on; bar is off'
+    end
+  end
+
 end

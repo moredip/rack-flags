@@ -2,7 +2,6 @@ require 'tee-dub-feature-flags/version'
 require 'tee-dub-feature-flags/defaults'
 require 'tee-dub-feature-flags/flag_overrides'
 require 'tee-dub-feature-flags/derived_flags'
-require 'tee-dub-feature-flags/overrides_reader'
 
 require 'tee-dub-feature-flags/config'
 require 'tee-dub-feature-flags/reader'
@@ -14,9 +13,6 @@ module TeeDub
   module FeatureFlags
     def self.for_env(env)
       env[RackMiddleware::ENV_KEY]
-      #base_flags = []
-      #overrides = {}
-      #Reader.new( base_flags, overrides )
     end
   end
 end
