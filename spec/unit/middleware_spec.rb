@@ -35,10 +35,10 @@ module TeeDub module FeatureFlags
         middleware.call( {} )
       end
 
-      xit 'adds the reader to the env' do
+      it 'adds the reader to the env' do
         mock_out_config_loading
 
-        mock(DerivedFlags).new(anything){ 'fake derived flags' }
+        mock(Reader).new(anything,anything){ 'fake derived flags' }
 
         middleware = create_middleware()
         fake_env = {}

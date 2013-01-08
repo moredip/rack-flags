@@ -1,15 +1,3 @@
-module TeeDub module FeatureFlags
-  class DerivedFlags
-    def initialize(base_flags)
-    end
-    
-    def on?(flag_name)
-      false
-    end
-  end
-end end
-
-
 module TeeDubFeatureFlags
   def self.derived_flags(args)
     defaults,overrides = args.values_at(:defaults,:overrides)
