@@ -46,9 +46,28 @@ module TeeDub module FeatureFlags
         fake_env[RackMiddleware::ENV_KEY].should == 'fake derived flags'
       end
 
-      it 'reads overrides from cookies'
+      it 'reads overrides from cookies' do
+        mock_out_config_loading
 
-      it 'passes the overrides into the reader'
+        fake_env = { fake: 'env' }
+
+
+        fake_cookie_codec = mock( Object.new )
+        mock(CookieCodec).new{ fake_cookie_codec }
+
+        fake_cookie_codec.overrides_from_env( fake_env )
+
+        create_middleware().call( fake_env )
+      end
+
+      it 'passes the overrides into the reader' do
+        mock_out_config_loading
+
+        mock(CookieCodec).new{ stub!.overrides_from_env{'fake overrides'} }
+        mock(Reader).new( anything, 'fake overrides' )
+
+        create_middleware().call( {} )
+      end
 
       it 'passes through to downstream app' do
         mock_out_config_loading

@@ -2,6 +2,7 @@ require 'tee-dub-feature-flags/version'
 require 'tee-dub-feature-flags/defaults'
 require 'tee-dub-feature-flags/flag_overrides'
 require 'tee-dub-feature-flags/derived_flags'
+require 'tee-dub-feature-flags/cookie_codec'
 
 require 'tee-dub-feature-flags/config'
 require 'tee-dub-feature-flags/reader'

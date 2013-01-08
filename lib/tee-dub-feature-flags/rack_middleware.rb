@@ -42,7 +42,7 @@ module TeeDub module FeatureFlags
     end
 
     def call( env )
-      overrides = {} # SLIME
+      overrides = CookieCodec.new.overrides_from_env( env )
       reader = Reader.new( @config.flags, overrides )
       env[ENV_KEY] = reader
 

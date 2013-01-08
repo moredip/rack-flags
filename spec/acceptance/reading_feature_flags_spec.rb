@@ -33,10 +33,13 @@ describe 'reading feature flags in an app' do
 
   let( :config_file ) { Tempfile.new('tee-dub-feature-flags acceptance test example config file') }
   let( :config_contents ){ "" }
+  let( :feature_flag_cookie ){ "" }
 
   before :each do
     config_file.write( config_contents )
     config_file.flush
+
+    set_cookie("#{TeeDub::FeatureFlags::CookieCodec::COOKIE_KEY}=#{feature_flag_cookie}")
   end
 
   after :each do
@@ -100,7 +103,7 @@ describe 'reading feature flags in an app' do
 
     let( :feature_flag_cookie){ "!bar" }
 
-    xit 'should interpret foo as on and bar as off' do
+    it 'should interpret foo as on and bar as off' do
       get '/'
       last_response.body.should == 'foo is on; bar is off'
     end
