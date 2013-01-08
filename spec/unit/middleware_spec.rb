@@ -2,21 +2,10 @@ require_relative 'spec_helper'
 
 module TeeDub module FeatureFlags
 
-  class DerivedFlags
-    def initialize( base_flags )
-    end
-  end
-
-  #class OverridesReader
-    #def initialize
-      #raise NotImplementedError
-    #end
-  #end
-
   describe RackMiddleware do
 
     def mock_out_config_loading
-      stub(Config).load(anything){ OpenStruct.new( flags: 'fake flags from config' ) }
+      stub(Config).load(anything){ OpenStruct.new( flags: {} ) }
     end
 
     it 'raise an exception if no yaml path is provided' do
@@ -32,12 +21,29 @@ module TeeDub module FeatureFlags
 
     describe '#call' do
 
-      it 'creates DerivedFlags using the config when called' do
-        stub(Config).load(anything){ OpenStruct.new( flags: 'fake flags from config' ) }
-        mock(DerivedFlags).new( 'fake flags from config' )
+      def create_middleware( fake_app = false)
+        fake_app ||= Proc.new {}
 
-        middleware = RackMiddleware.new( :fake_app, yaml_path: 'blah' )
+        RackMiddleware.new( fake_app, yaml_path: 'blah' )
+      end
+
+      it 'creates a Reader using the config flags when called' do
+        stub(Config).load(anything){ OpenStruct.new( flags: 'fake flags from config' ) }
+        mock(Reader).new( 'fake flags from config', anything )
+
+        middleware = create_middleware()
         middleware.call( {} )
+      end
+
+      xit 'adds the reader to the env' do
+        mock_out_config_loading
+
+        mock(DerivedFlags).new(anything){ 'fake derived flags' }
+
+        middleware = create_middleware()
+        fake_env = {}
+        middleware.call( fake_env )
+        fake_env[RackMiddleware::ENV_KEY].should == 'fake derived flags'
       end
 
       xit 'creates an overrides reader' do
@@ -46,11 +52,24 @@ module TeeDub module FeatureFlags
         fake_env = :fake_env
         mock(OverridesReader).for_env( fake_env )
 
-        middleware = RackMiddleware.new( :fake_app, yaml_path: 'blah' )
+        middleware = create_middleware()
         middleware.call( fake_env )
       end
 
-      it 'passes through to downstream app'
+      it 'passes the overrides into the reader'
+
+      it 'passes through to downstream app' do
+        mock_out_config_loading
+
+        fake_app ||= Proc.new do
+          "downstream app response"
+        end
+
+        middleware = create_middleware( fake_app )
+        middleware_response = middleware.call( {} )
+
+        middleware_response.should == "downstream app response"
+      end
     end
   end
 

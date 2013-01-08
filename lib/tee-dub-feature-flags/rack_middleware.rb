@@ -33,15 +33,20 @@ end
 
 module TeeDub module FeatureFlags
   class RackMiddleware
-    ENV_KEY = 'x-tee-dub-feature-flags.reader'
+    ENV_KEY = 'x-tee-dub-feature-flags.flag-reader'
 
     def initialize( app, args )
+      @app = app
       yaml_path = args.fetch( :yaml_path ){ raise ArgumentError.new( 'yaml_path must be provided' ) }
       @config = Config.load( yaml_path )
     end
 
     def call( env )
-      DerivedFlags.new( @config.flags )
+      overrides = {} # SLIME
+      reader = Reader.new( @config.flags, overrides )
+      env[ENV_KEY] = reader
+
+      @app.call(env)
     end
   end
 end end

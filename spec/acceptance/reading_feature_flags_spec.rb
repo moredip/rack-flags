@@ -46,7 +46,7 @@ describe 'reading feature flags in an app' do
   let( :app ) do
     yaml_path = config_file.path
     Rack::Builder.new do
-      use TeeDubFeatureFlags::RackMiddleware, yaml_path: yaml_path
+      use TeeDub::FeatureFlags::RackMiddleware, yaml_path: yaml_path
       run ReaderApp
     end
   end
@@ -66,7 +66,7 @@ describe 'reading feature flags in an app' do
       EOS
     end
 
-    xit 'should interpret foo as on and bar as off' do
+    it 'should interpret foo as on and bar as off' do
       get '/'
       last_response.body.should == 'foo is on; bar is off'
     end

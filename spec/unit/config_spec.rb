@@ -3,27 +3,46 @@ require_relative 'spec_helper'
 module TeeDub module FeatureFlags
  
   describe Config do
-    let(:yaml) do
-      <<-EOS
-      foo: 
-        description: the description
-        default: true
-      bar:
-        description: another description
-        default: false
-      EOS
+    let( :config_file ) { Tempfile.new('tee-dub-feature-flag-config-unit-test') }
+    let( :yaml ) { raise NotImplementedError }
+
+
+    before :each do
+      config_file.write( yaml )
+      config_file.flush
     end
 
-    it 'loads yaml from the specified path' do
-      Tempfile.open('tee-dub-feature-flag-config-unit-test') do |f|
-        f.write( yaml )
-        f.flush
+    let(:config){ Config.load( config_file.path ) }
 
-        config = Config.load( f.path )
+    after :each do
+      config_file.unlink
+    end
 
-        config.should have(2).flags
+    context 'regular yaml' do
+      let(:yaml) do
+        <<-EOS
+        foo: 
+          description: the description
+          default: true
+        bar:
+          description: another description
+          default: false
+        EOS
       end
 
+      it 'loads a set of BaseFlags' do
+        config.should have(2).flags
+        config.flags.map(&:name) .should =~ [:foo,:bar]
+        config.flags.map(&:description).should =~ ["the description","another description"]
+        config.flags.map(&:default).should =~ [true,false]
+      end
+    end
+
+    context 'empty file' do
+      let(:yaml){ "" }
+      it 'loads as an empty config' do
+        config.should have(0).flags
+      end
     end
   end
 
