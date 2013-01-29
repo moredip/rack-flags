@@ -44,6 +44,22 @@ module TeeDub module FeatureFlags
         config.should have(0).flags
       end
     end
+
+    context 'symbolized yaml' do
+      let :yaml do
+        <<-EOS
+          :foo: 
+            :default: true
+            :description: a description
+        EOS
+      end
+
+      subject(:flag){ config.flags.first } 
+
+      it { should_not be_nil }
+      its(:default) { should be_true }
+      its(:description) { should == "a description" }
+    end
   end
 
 end end

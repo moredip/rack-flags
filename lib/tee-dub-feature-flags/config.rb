@@ -18,11 +18,18 @@ module TeeDub module FeatureFlags
     private
 
     def base_flag_from_config_entry( name, details )
+      symbolized_details = symbolize_keys( details )
       BaseFlag.new( 
                    name.to_sym,
-                   details.fetch("description",""),
-                   details.fetch("default",false)
+                   symbolized_details.fetch( :description ,""),
+                   symbolized_details.fetch( :default ,false)
                   )
+    end
+
+    def symbolize_keys(hash)
+      symbolized_hash = {}
+      hash.each{ |k,v| symbolized_hash[k.to_sym] = v }
+      symbolized_hash
     end
   end
 

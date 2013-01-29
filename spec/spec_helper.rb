@@ -1,5 +1,6 @@
 require 'rr'
 require 'pry'
+require 'rack'
 
 require_relative '../lib/tee-dub-feature-flags'
 
