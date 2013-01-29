@@ -1,7 +1,6 @@
-require_relative '../spec_helper'
+require_relative 'spec_helper'
 
 require 'sinatra'
-require 'rack/test'
 
 class ReaderApp < Sinatra::Base
   enable :raise_errors
@@ -31,23 +30,16 @@ end
 describe 'reading feature flags in an app' do
   include Rack::Test::Methods
 
-  let( :config_file ) { Tempfile.new('tee-dub-feature-flags acceptance test example config file') }
-  let( :config_contents ){ "" }
+  let( :feature_flag_config ){ {} }
   let( :feature_flag_cookie ){ "" }
 
   before :each do
-    config_file.write( config_contents )
-    config_file.flush
-
-    set_cookie("#{TeeDub::FeatureFlags::CookieCodec::COOKIE_KEY}=#{feature_flag_cookie}")
-  end
-
-  after :each do
-    config_file.unlink
+    ff_config_file_contains feature_flag_config
+    set_feature_flags_cookie feature_flag_cookie
   end
 
   let( :app ) do
-    yaml_path = config_file.path
+    yaml_path = ff_config_file_path
     Rack::Builder.new do
       use TeeDub::FeatureFlags::RackMiddleware, yaml_path: yaml_path
       run ReaderApp
@@ -62,11 +54,10 @@ describe 'reading feature flags in an app' do
   end
 
   context 'foo defined as a base flag, defaulted to true' do
-    let( :config_contents ) do
-      <<-EOS
-      foo: 
-        default: true
-      EOS
+    let( :feature_flag_config ) do
+      {
+        foo: { default: true }
+      }
     end
 
     it 'should interpret foo as on and bar as off' do
@@ -76,13 +67,11 @@ describe 'reading feature flags in an app' do
   end
 
   context 'foo defaults to false, bar defaults to true' do
-    let( :config_contents ) do
-      <<-EOS
-      foo: 
-        default: false
-      bar: 
-        default: true
-      EOS
+    let( :feature_flag_config ) do
+      {
+        foo: { default: false },
+        bar: { default: true }
+      }
     end
 
     it 'should interpret foo as off and bar as on' do
@@ -92,13 +81,11 @@ describe 'reading feature flags in an app' do
   end
 
   context 'foo and bar both default to true, bar is overridden to false' do
-    let( :config_contents ) do
-      <<-EOS
-      foo: 
-        default: true
-      bar: 
-        default: true
-      EOS
+    let( :feature_flag_config ) do
+      {
+        foo: { default: true },
+        bar:  { default: true }
+      }
     end
 
     let( :feature_flag_cookie){ "!bar" }
