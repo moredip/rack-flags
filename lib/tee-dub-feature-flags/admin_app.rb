@@ -27,22 +27,24 @@ module TeeDubFeatureFlags
       derived_flags.values.each do |flag|
         checked_states = generate_checked_attributes_for(flag.override)
         response.write <<-EOH
-          <h3>#{flag.name}</h3>
-          <p>#{flag.description}</p>
-          <label>
-            Default (#{bool_as_flag_desc(flag.default)})
-            <input type="radio" name="#{flag.name}" value="default" #{checked_states[:default]}/>
-          </label>
+          <section data-flag-name="#{flag.name}">
+            <h3>#{flag.name}</h3>
+            <p>#{flag.description}</p>
+            <label class="default">
+              Default (#{bool_as_flag_desc(flag.default)})
+              <input type="radio" name="#{flag.name}" value="default" #{checked_states[:default]}/>
+            </label>
 
-          <label>
-            On
-            <input type="radio" name="#{flag.name}" value="on" #{checked_states[:on]}/>
-          </label>
+            <label class="on">
+              On
+              <input type="radio" name="#{flag.name}" value="on" #{checked_states[:on]}/>
+            </label>
 
-          <label>
-            Off
-            <input type="radio" name="#{flag.name}" value="off" #{checked_states[:off]}/>
-          </label>
+            <label class="off">
+              Off
+              <input type="radio" name="#{flag.name}" value="off" #{checked_states[:off]}/>
+            </label>
+          </section>
         EOH
       end
 
