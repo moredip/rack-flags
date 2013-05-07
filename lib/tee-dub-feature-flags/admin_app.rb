@@ -20,6 +20,8 @@ module TeeDubFeatureFlags
       derived_flags = TeeDubFeatureFlags.derived_flags( defaults: defaults.flags.values, overrides: overrides.all_flags)
 
       response = Rack::Response.new
+      response['Content-Type'] = 'text/html'
+
       response.write <<-EOH
         <h2>Tee Dub Feature Flag Admin</h2>
         <form method="post">
