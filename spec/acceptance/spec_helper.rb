@@ -24,7 +24,8 @@ end
 
 module CookieHelper
   def set_feature_flags_cookie ff_cookie
-    set_cookie("#{TeeDub::FeatureFlags::CookieCodec::COOKIE_KEY}=#{ff_cookie}")
+    raw_cookie = "#{TeeDub::FeatureFlags::CookieCodec::COOKIE_KEY}=#{Rack::Utils.escape(ff_cookie)}"
+    set_cookie(raw_cookie)
   end
 end
 
