@@ -8,6 +8,7 @@ require 'tee-dub/feature-flags/config'
 require 'tee-dub/feature-flags/reader'
 
 require 'tee-dub-feature-flags/rack_middleware'
+require 'tee-dub/feature-flags/rack_middleware'
 require 'tee-dub-feature-flags/admin_app'
 
 module TeeDub
