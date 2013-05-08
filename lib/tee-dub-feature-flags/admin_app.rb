@@ -21,7 +21,6 @@ module TeeDubFeatureFlags
 
       response = Rack::Response.new
       response['Content-Type'] = 'text/html'
-
       response.write <<-EOH
         <h2>Tee Dub Feature Flag Admin</h2>
         <form method="post">
