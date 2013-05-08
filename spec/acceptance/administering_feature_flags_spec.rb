@@ -92,6 +92,4 @@ describe 'displaying flags in admin app' do
       raise "unrecognized state '#{expected_state}'"
     end
   end
-
-
 end
