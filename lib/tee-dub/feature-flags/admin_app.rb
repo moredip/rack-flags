@@ -11,15 +11,11 @@ module TeeDub module FeatureFlags
     end
 
     def checked_attribute_for(state)
-      @checked_states ||= generate_checked_states
-
-      @checked_states[state]
+      checked_states.fetch( state, '' )
     end
 
-    def generate_checked_states
-      checked_states = Hash.new('')
-      checked_states[selected_state] = 'checked'
-      checked_states
+    def checked_states
+      @_checked_states ||= { selected_state => 'checked' }
     end
 
     def selected_state
