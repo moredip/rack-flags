@@ -11,11 +11,7 @@ module TeeDub module FeatureFlags
     end
 
     def checked_attribute_for(state)
-      checked_states.fetch( state, '' )
-    end
-
-    def checked_states
-      @_checked_states ||= { selected_state => 'checked' }
+      state == selected_state ? 'checked' : ''
     end
 
     def selected_state
