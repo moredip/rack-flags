@@ -1,9 +1,10 @@
 module TeeDub module FeatureFlags
-  class FullFlagView
+  class FullFlagPresenter
     attr_reader :full_flag
 
     def initialize(full_flag)
       @full_flag = full_flag
+      @checked_states = generate_checked_states
     end
 
     def default
@@ -11,16 +12,24 @@ module TeeDub module FeatureFlags
     end
 
     def checked_attribute_for(state)
-      state == selected_state ? 'checked' : ''
+      @checked_states[state]
     end
 
-    def selected_state
-      case full_flag.override
-      when nil then :default
-      when true then :on
-      else :off
+    private
+
+      def generate_checked_states
+        checked_states = Hash.new('')
+        checked_states[selected_state] = 'checked'
+        checked_states
       end
-    end
+
+      def selected_state
+        case full_flag.override
+        when nil then :default
+        when true then :on
+        else :off
+        end
+      end
 
   end
 
@@ -37,25 +46,25 @@ module TeeDub module FeatureFlags
       EOH
 
       reader.full_flags.each do |flag|
-        full_flag_view = FullFlagView.new(flag)
+        full_flag_presenter = FullFlagPresenter.new(flag)
 
         response.write <<-EOH
           <section data-flag-name="#{flag.name}">
             <h3>#{flag.name}</h3>
             <p>#{flag.description}</p>
             <label class="default">
-              Default (#{full_flag_view.default})
-              <input type="radio" name="#{flag.name}" value="default" #{full_flag_view.checked_attribute_for(:default)}/>
+              Default (#{full_flag_presenter.default})
+              <input type="radio" name="#{flag.name}" value="default" #{full_flag_presenter.checked_attribute_for(:default)}/>
             </label>
 
             <label class="on">
               On
-              <input type="radio" name="#{flag.name}" value="on" #{full_flag_view.checked_attribute_for(:on)}/>
+              <input type="radio" name="#{flag.name}" value="on" #{full_flag_presenter.checked_attribute_for(:on)}/>
             </label>
 
             <label class="off">
               Off
-              <input type="radio" name="#{flag.name}" value="off" #{full_flag_view.checked_attribute_for(:off)}/>
+              <input type="radio" name="#{flag.name}" value="off" #{full_flag_presenter.checked_attribute_for(:off)}/>
             </label>
           </section>
         EOH

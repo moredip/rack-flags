@@ -22,11 +22,11 @@ module TeeDub module FeatureFlags
     end
   end
 
-  describe FullFlagView do
+  describe FullFlagPresenter do
     describe '#default' do
       let(:full_flag) { FullFlag.new(base_flag, nil) }
 
-      subject(:full_flag_view) { FullFlagView.new(full_flag) }
+      subject(:full_flag_presenter) { FullFlagPresenter.new(full_flag) }
 
       context 'when the default is true' do
         let(:base_flag) { BaseFlag.new('name', 'description', true) }
@@ -44,7 +44,7 @@ module TeeDub module FeatureFlags
     describe '#checked_attributes_for' do
       let(:full_flag) { FullFlag.new(mock(BaseFlag), override) }
 
-      subject(:full_flag_view) { FullFlagView.new(full_flag) }
+      subject(:full_flag_presenter) { FullFlagPresenter.new(full_flag) }
 
       context 'when the default value is not overridden' do
         let(:final_value) { nil }
