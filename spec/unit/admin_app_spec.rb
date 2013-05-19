@@ -4,22 +4,81 @@ module TeeDub module FeatureFlags
 
   describe AdminApp do
     describe '#call' do
-      it 'returns a 200 status when the request is a get' do
-        fake_env = Proc.new {}
+      let(:fake_env) { {} }
+      let(:admin_app) { AdminApp.new }
 
-        status, _, _ = AdminApp.new.call(fake_env)
+      context 'when the request is a get' do
+        let(:fake_env) { {'REQUEST_METHOD' => 'GET'} }
 
-        expect(status).to eq(200)
+        it 'returns a successful HTML response' do
+          status, headers, body = admin_app.call(fake_env)
+
+          expect(status).to eq(200)
+          expect(headers).to include({'Content-Type' => 'text/html'})
+          expect(body).to_not be_empty
+        end
+
       end
 
-      it 'has an HTMl content type' do
-        fake_env = Proc.new {}
+      context 'when the request is a post' do
+        let(:fake_env) { {'REQUEST_METHOD' => 'POST', 'SCRIPT_NAME' => 'admin-app' } }
 
-        _, headers, _ = AdminApp.new.call(fake_env)
+        before do
+          any_instance_of(Rack::Request) do |rack_request|
+            stub(rack_request).POST { {} }
+          end
+        end
 
-        expect(headers).to include({'Content-Type' => 'text/html'})
+        it 'returns a 303 redirect response' do
+          status, headers , body = admin_app.call(fake_env)
+
+          expect(status).to eq(303)
+          expect(headers).to include({'Location' => 'admin-app'})
+          expect(body).to be_empty
+        end
+
+        it 'sets the cookie using the post params' do
+          any_instance_of(Rack::Request) do |rack_request|
+            stub(rack_request).POST { {flag_1: 'on', flag_2: 'off', flag_3: 'default'} }
+          end
+
+          stub.proxy(CookieCodec).new do |cookie_codec|
+            mock(cookie_codec).generate_cookie_from({flag_1: true, flag_2: false, flag_3: nil}) { 'flag_1 !flag2' }
+          end
+
+          any_instance_of(Rack::Response) do |rack_response|
+            mock(rack_response).set_cookie(CookieCodec::COOKIE_KEY, 'flag_1 !flag2')
+          end
+
+          admin_app.call(fake_env)
+        end
+
+        it 'returns the finished response' do
+          stub.proxy(Rack::Response).new do |rack_response|
+            mock(rack_response).finish { 'finished rack response' }
+          end
+
+          response = admin_app.call(fake_env)
+
+          expect(response).to eq('finished rack response')
+        end
+
       end
+
+      context 'when the request is something else' do
+        let(:fake_env) { {'REQUEST_METHOD' => 'OTHER'} }
+
+        it 'returns a 405 method not allowed response' do
+          status, headers , body = admin_app.call(fake_env)
+
+          expect(status).to eq(405)
+          expect(headers).to be_empty
+          expect(body).to eq('405 - METHOD NOT ALLOWED')
+        end
+      end
+
     end
+
   end
 
   describe FullFlagPresenter do

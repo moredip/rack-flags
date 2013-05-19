@@ -46,6 +46,21 @@ module TeeDub module FeatureFlags
       raw_overrides = req.cookies[COOKIE_KEY]
       Parser.parse( raw_overrides )
     end
+
+    def generate_cookie_from(overrides)
+      cookie_values = overrides.map {|flag_name, flag_value| cookie_value_for(flag_name, flag_value) }
+      cookie_values.compact.join(' ')
+    end
+
+    private
+
+      def cookie_value_for(flag_name, flag_value)
+        case flag_value
+        when true then flag_name
+        when false then "!#{flag_name}"
+        else nil
+        end
+      end
   end
 
 end end

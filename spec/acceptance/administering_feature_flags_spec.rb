@@ -18,16 +18,14 @@ describe 'displaying flags in admin app' do
 
   before :each do
     ff_config_file_contains feature_flag_config
-    TeeDubFeatureFlags::Defaults.load_from ff_config_file_path
     Capybara.app = app
   end
 
   let( :app ) do
     yaml_path = ff_config_file_path
     Rack::Builder.new do
-      use TeeDubFeatureFlags::RackMiddleware
       use TeeDub::FeatureFlags::RackMiddleware, yaml_path: yaml_path
-      run TeeDubFeatureFlags::AdminApp.new
+      run TeeDub::FeatureFlags::AdminApp.new
     end
   end
 
