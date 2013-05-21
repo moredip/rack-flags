@@ -4,7 +4,6 @@ module TeeDub module FeatureFlags
 
     def initialize(full_flag)
       @full_flag = full_flag
-      @checked_states = generate_checked_states
     end
 
     def default
@@ -12,16 +11,10 @@ module TeeDub module FeatureFlags
     end
 
     def checked_attribute_for(state)
-      @checked_states[state]
+      state == selected_state ? 'checked' : ''
     end
 
     private
-
-      def generate_checked_states
-        checked_states = Hash.new('')
-        checked_states[selected_state] = 'checked'
-        checked_states
-      end
 
       def selected_state
         case full_flag.override
