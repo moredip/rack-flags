@@ -1,6 +1,6 @@
 require 'forwardable'
 
-module TeeDub module FeatureFlags
+module RackFlags
 
   BaseFlag = Struct.new(:name,:description,:default)
 
@@ -58,5 +58,4 @@ module TeeDub module FeatureFlags
     end
   end
 
-end end
-
+end

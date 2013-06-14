@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-module TeeDub module FeatureFlags
+module RackFlags
 
   describe Reader do
     def derived_flags_final_values(derived_flags)
@@ -97,4 +97,4 @@ module TeeDub module FeatureFlags
     end
   end
 
-end end
+end

@@ -1,6 +1,6 @@
-module TeeDub module FeatureFlags
+module RackFlags
   class RackMiddleware
-    ENV_KEY = 'x-tee-dub-feature-flags.flag-reader'
+    ENV_KEY = 'x-rack-flags.flag-reader'
 
     def initialize( app, args )
       @app = app
@@ -16,4 +16,4 @@ module TeeDub module FeatureFlags
       @app.call(env)
     end
   end
-end end
+end

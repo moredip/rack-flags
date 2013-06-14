@@ -4,7 +4,7 @@ class ReaderApp < Sinatra::Base
   disable :show_exceptions 
 
   get "/" do
-    flags = TeeDub::FeatureFlags.for_env(env)
+    flags = RackFlags.for_env(env)
 
     output = []
     if flags.on?( :foo )

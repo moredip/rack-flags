@@ -1,4 +1,4 @@
-module TeeDub module FeatureFlags
+module RackFlags
   class FullFlagPresenter
     attr_reader :full_flag
 
@@ -40,13 +40,13 @@ module TeeDub module FeatureFlags
 
     private
       def handle_get(env)
-        reader = TeeDub::FeatureFlags.for_env(env)
+        reader = RackFlags.for_env(env)
 
         response = Rack::Response.new
         response['Content-Type'] = 'text/html'
 
         response.write <<-EOH
-          <h2>Tee Dub Feature Flag Admin</h2>
+          <h2>Rack Flags Admin</h2>
           <form method="post">
         EOH
 
@@ -112,4 +112,4 @@ module TeeDub module FeatureFlags
       end
 
   end
-end end
+end

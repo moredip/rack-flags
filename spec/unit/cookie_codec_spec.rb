@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-module TeeDub::FeatureFlags
+module RackFlags
  
   describe CookieCodec do
     let(:cookie_codec){ CookieCodec.new }

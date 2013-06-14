@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-module TeeDub module FeatureFlags
+module RackFlags
 
   describe RackMiddleware do
 
@@ -84,4 +84,4 @@ module TeeDub module FeatureFlags
     end
   end
 
-end end
+end

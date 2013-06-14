@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-module TeeDub module FeatureFlags
+module RackFlags
 
   describe AdminApp do
     describe '#call' do
@@ -140,4 +140,4 @@ module TeeDub module FeatureFlags
     end
   end
 
-end end
+end

@@ -15,7 +15,7 @@ describe 'reading feature flags in an app' do
   let( :app ) do
     yaml_path = ff_config_file_path
     Rack::Builder.new do
-      use TeeDub::FeatureFlags::RackMiddleware, yaml_path: yaml_path
+      use RackFlags::RackMiddleware, yaml_path: yaml_path
       run ReaderApp
     end
   end

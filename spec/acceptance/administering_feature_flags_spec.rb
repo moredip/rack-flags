@@ -24,8 +24,8 @@ describe 'displaying flags in admin app' do
   let( :app ) do
     yaml_path = ff_config_file_path
     Rack::Builder.new do
-      use TeeDub::FeatureFlags::RackMiddleware, yaml_path: yaml_path
-      run TeeDub::FeatureFlags::AdminApp.new
+      use RackFlags::RackMiddleware, yaml_path: yaml_path
+      run RackFlags::AdminApp.new
     end
   end
 

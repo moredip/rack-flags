@@ -2,8 +2,7 @@ require 'rr'
 require 'pry'
 require 'rack'
 
-require_relative '../lib/tee-dub-feature-flags'
-
+require_relative '../lib/rack-flags'
 
 RSpec.configure do |config|
   config.mock_with :rr

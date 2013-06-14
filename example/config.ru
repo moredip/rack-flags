@@ -1,14 +1,14 @@
 $LOAD_PATH << File.expand_path('../../lib', __FILE__)
 
 require 'sinatra/base'
-require 'tee-dub-feature-flags'
+require 'rack-flags'
 
 require 'pry'
 
 class App < Sinatra::Base  
 
   get(/.+/) do
-    reader = TeeDub::FeatureFlags.for_env(env)
+    reader = RackFlags.for_env(env)
     final_values = reader.base_flags.keys.inject({}) do |final_values, flag_name|
       final_values[flag_name.to_sym] = reader.on?(flag_name)
       final_values
@@ -26,10 +26,10 @@ class App < Sinatra::Base
 end
 
 app = Rack::Builder.new do
-  use TeeDub::FeatureFlags::RackMiddleware, yaml_path: File.expand_path('../flags.yaml',__FILE__)
+  use RackFlags::RackMiddleware, yaml_path: File.expand_path('../flags.yaml',__FILE__)
 
   map '/feature_flags' do
-    run TeeDub::FeatureFlags::AdminApp.new
+    run RackFlags::AdminApp.new
   end
 
   map '/' do 

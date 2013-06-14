@@ -1,9 +1,9 @@
 require_relative 'spec_helper'
 
-module TeeDub module FeatureFlags
+module RackFlags
  
   describe Config do
-    let( :config_file ) { Tempfile.new('tee-dub-feature-flag-config-unit-test') }
+    let( :config_file ) { Tempfile.new('rack-flags-config-unit-test') }
     let( :yaml ) { raise NotImplementedError }
 
 
@@ -62,4 +62,4 @@ module TeeDub module FeatureFlags
     end
   end
 
-end end
+end

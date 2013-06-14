@@ -1,6 +1,6 @@
 require 'yaml'
 
-module TeeDub module FeatureFlags
+module RackFlags
 
   class Config
     attr_reader :flags
@@ -38,4 +38,4 @@ module TeeDub module FeatureFlags
     
   end
 
-end end
+end

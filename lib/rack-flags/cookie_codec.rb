@@ -1,7 +1,7 @@
-module TeeDub module FeatureFlags
+module RackFlags
 
   class CookieCodec
-    COOKIE_KEY='tee-dub-feature-flags'
+    COOKIE_KEY='rack-flags'
 
     class Parser
       attr_reader :overrides
@@ -63,4 +63,4 @@ module TeeDub module FeatureFlags
       end
   end
 
-end end
+end
