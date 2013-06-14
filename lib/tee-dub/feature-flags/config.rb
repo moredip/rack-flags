@@ -1,7 +1,10 @@
+require 'yaml'
+
 module TeeDub module FeatureFlags
 
   class Config
     attr_reader :flags
+    
     def self.load( yaml_path )
       flags = YAML.load( File.read( yaml_path ) )
       new( flags )

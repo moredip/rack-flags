@@ -2,7 +2,7 @@
 require File.expand_path('../lib/tee-dub-feature-flags/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Pete Hodgson"]
+  gem.authors       = ["Pete Hodgson", "Ryan Oglesby"]
   gem.email         = ["git@thepete.net"]
   gem.description   = %q{TODO: Write a gem description}
   gem.summary       = %q{TODO: Write a gem summary}
@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "tee-dub-feature-flags"
   gem.require_paths = ["lib"]
-  gem.version       = TeeDubFeatureFlags::VERSION
+  gem.version       = TeeDub::FeatureFlags::VERSION
 
   gem.add_dependency( "rack", ["~>1.4"] )
   gem.add_dependency( "sinatra", ["~>1.3"] )
