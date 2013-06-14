@@ -30,10 +30,12 @@ module TeeDub module FeatureFlags
     end
 
     def symbolize_keys(hash)
-      symbolized_hash = {}
-      hash.each{ |k,v| symbolized_hash[k.to_sym] = v }
-      symbolized_hash
+      hash.inject({}) do |symbolized_hash, (key, value)|
+        symbolized_hash[key.to_sym] = value
+        symbolized_hash
+      end
     end
+    
   end
 
 end end
