@@ -8,7 +8,7 @@ rack-flags ships in two parts:
 
 ## Getting Started
 
-### 1. Add rack-flags to your Gemfile.
+### 1. Add rack-flags to your Gemfile
 
 ### 2. Write a yaml file describing your features
 
