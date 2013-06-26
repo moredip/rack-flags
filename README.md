@@ -2,6 +2,9 @@
 
 Simple cookie-based feature flags via Rack. 
 
+[![Build Status](https://travis-ci.org/moredip/rack-flags.png?branch=master)](https://travis-ci.org/moredip/rack-flags)
+[![Code Climate](https://codeclimate.com/github/moredip/rack-flags.png)](https://codeclimate.com/github/moredip/rack-flags)
+
 rack-flags ships in two parts:
 - a simple rack middleware which detects the feature flag set for a specific web request
 - a simple rack app for administering which feature flags are set for your browser
