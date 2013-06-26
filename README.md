@@ -1,6 +1,6 @@
 # rack-flags
 
-Simple cookie-based feature flags via Rack. 
+Simple cookie-based [feature flags](http://martinfowler.com/bliki/FeatureToggle.html) using Rack. 
 
 [![Build Status](https://travis-ci.org/moredip/rack-flags.png?branch=master)](https://travis-ci.org/moredip/rack-flags)
 [![Code Climate](https://codeclimate.com/github/moredip/rack-flags.png)](https://codeclimate.com/github/moredip/rack-flags)
