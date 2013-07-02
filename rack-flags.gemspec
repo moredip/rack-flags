@@ -15,6 +15,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = RackFlags::VERSION
 
+  gem.add_dependency( "rake" )
   gem.add_dependency( "rack", ["~>1.4"] )
   gem.add_dependency( "sinatra", ["~>1.3"] )
 
