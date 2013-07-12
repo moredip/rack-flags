@@ -9,13 +9,3 @@ RSpec.configure do |config|
   # or if that doesn't work due to a version incompatibility
   # config.mock_with RR::Adapters::Rspec
 end
-
-class NullObject
-  def self.null
-    new
-  end
-
-  def method_missing( name, args )
-    self
-  end
-end

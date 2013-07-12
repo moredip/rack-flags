@@ -5,30 +5,29 @@
   </head>
   <body>
     <h1>rack-flags admin</h1>
-      <form method="post">
-        <%flags.each do |flag|%>
-          <section data-flag-name="<%=flag.name%>">
-            <h3><%=flag.name%></h3>
-            <p><%=flag.description%></p>
-            <label class="default">
-              Default (<%=flag.default%>)
-              <input type="radio" name="<%=flag.name%>" value="default" <%=flag.checked_attribute_for(:default)%>/>
-            </label>
+    <form method="post">
+      <%flags.each do |flag|%>
+        <section data-flag-name="<%=flag.name%>">
+          <h3><%=flag.name%></h3>
+          <p><%=flag.description%></p>
+          <label class="default">
+            Default (<%=flag.default%>)
+            <input type="radio" name="<%=flag.name%>" value="default" <%=flag.checked_attribute_for(:default)%>/>
+          </label>
 
-            <label class="on">
-              On
-              <input type="radio" name="<%=flag.name%>" value="on" <%=flag.checked_attribute_for(:on)%>/>
-            </label>
+          <label class="on">
+            On
+            <input type="radio" name="<%=flag.name%>" value="on" <%=flag.checked_attribute_for(:on)%>/>
+          </label>
 
-            <label class="off">
-              Off
-              <input type="radio" name="<%=flag.name%>" value="off" <%=flag.checked_attribute_for(:off)%>/>
-            </label>
-          </section>
-          <%end%>
-          <hr/>
-          <input type="submit" value="Update Flags"/>
-      </form>
-    </h1>
+          <label class="off">
+            Off
+            <input type="radio" name="<%=flag.name%>" value="off" <%=flag.checked_attribute_for(:off)%>/>
+          </label>
+        </section>
+      <%end%>
+      <hr/>
+      <input type="submit" value="Update Flags"/>
+    </form>
   </body>
 </html>
