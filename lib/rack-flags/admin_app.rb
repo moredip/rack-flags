@@ -1,13 +1,22 @@
+require 'erb'
+
 module RackFlags
   class FullFlagPresenter
-    attr_reader :full_flag
 
     def initialize(full_flag)
       @full_flag = full_flag
     end
 
     def default
-      full_flag.default ? 'On' : 'Off'
+      @full_flag.default ? 'On' : 'Off'
+    end
+
+    def name
+      @full_flag.name
+    end
+
+    def description
+      @full_flag.description
     end
 
     def checked_attribute_for(state)
@@ -17,7 +26,7 @@ module RackFlags
     private
 
       def selected_state
-        case full_flag.override
+        case @full_flag.override
         when nil then :default
         when true then :on
         else :off
@@ -42,45 +51,16 @@ module RackFlags
       def handle_get(env)
         reader = RackFlags.for_env(env)
 
-        response = Rack::Response.new
-        response['Content-Type'] = 'text/html'
+        template = ERB.new(File.read(RackFlags.path_for_resource('admin_app/index.html.erb')))
 
-        response.write <<-EOH
-          <h2>Rack Flags Admin</h2>
-          <form method="post">
-        EOH
 
-        reader.full_flags.each do |flag|
-          full_flag_presenter = FullFlagPresenter.new(flag)
-
-          response.write <<-EOH
-            <section data-flag-name="#{flag.name}">
-              <h3>#{flag.name}</h3>
-              <p>#{flag.description}</p>
-              <label class="default">
-                Default (#{full_flag_presenter.default})
-                <input type="radio" name="#{flag.name}" value="default" #{full_flag_presenter.checked_attribute_for(:default)}/>
-              </label>
-
-              <label class="on">
-                On
-                <input type="radio" name="#{flag.name}" value="on" #{full_flag_presenter.checked_attribute_for(:on)}/>
-              </label>
-
-              <label class="off">
-                Off
-                <input type="radio" name="#{flag.name}" value="off" #{full_flag_presenter.checked_attribute_for(:off)}/>
-              </label>
-            </section>
-          EOH
-        end
-
-        response.write <<-EOH
-            <hr/>
-            <input type="submit" value="Update Flags"/>
-          </form>
-        EOH
-        response.finish
+        flag_presenters = reader.full_flags.map{ |flag| FullFlagPresenter.new(flag) }
+        view_model = OpenStruct.new( :flags => flag_presenters )
+        [
+          200, 
+          {'Content-Type'=>'text/html'}, 
+          [template.result( view_model.instance_eval{ binding } )]
+        ]
       end
 
       def handle_post(request)

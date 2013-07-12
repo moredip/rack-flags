@@ -8,9 +8,11 @@ Gem::Specification.new do |gem|
   gem.summary       = %q{TODO: Write a gem summary}
   gem.homepage      = ""
 
-  gem.files         = `git ls-files`.split($\)
-  gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
-  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
+  all_files = `git ls-files`.split($\)
+
+  gem.files         = all_files.grep(%r{^(lib|resources)/})
+  gem.executables   = all_files.grep(%r{^bin/}).map{ |f| File.basename(f) }
+  gem.test_files    = all_files.grep(%r{^(test|spec|features)/})
   gem.name          = "rack-flags"
   gem.require_paths = ["lib"]
   gem.version       = RackFlags::VERSION
