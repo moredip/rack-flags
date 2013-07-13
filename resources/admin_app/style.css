@@ -1,3 +1,35 @@
 body {
-  background: hotpink;
+  font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+}
+
+section {
+  margin: 20px 20px 40px 20px;
+  padding-bottom: 10px;
+  background-color: lightgray;
+}
+section>* {
+  padding-left: 8px;
+}
+
+section h3 {
+  background-color: gray;
+  color: white;
+  font-size: 16pt;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin: 0;
+}
+
+section p {
+  margin-top: 0;
+  font-style: italic;
+}
+
+input[type="submit"] {
+  font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+  padding: 10px;
+  margin-left: 20px;
+  font-size: 20px;
+  background-color: #eee;
+  border: 1px solid;
 }
