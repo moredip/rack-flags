@@ -4,9 +4,9 @@ require File.expand_path('../lib/rack-flags/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Pete Hodgson", "Ryan Oglesby"]
   gem.email         = ["git@thepete.net"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = "This is a simple lightweight way to expose work-in-progress functionality to developers, testers or other internal users."
+  gem.summary       = "Simple cookie-based feature flags using Rack."
+  gem.homepage      = "https://github.com/moredip/rack-flags"
 
   all_files = `git ls-files`.split($\)
 
