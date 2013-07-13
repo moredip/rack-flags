@@ -39,7 +39,7 @@ module RackFlags
     def call(env)
       request = Rack::Request.new(env)
 
-      if request.path_info.empty?
+      if request.path_info.chomp("/").empty?
         handle_root(request)
       else
         handle_non_root(request)
@@ -96,7 +96,7 @@ module RackFlags
       end
 
       def not_allowed
-        [405, {}, ['405 - METHOD NOT ALLOWED']]
+        [405, {}, '405 - METHOD NOT ALLOWED']
       end
 
       def flag_value_for(form_param_flag_state)
