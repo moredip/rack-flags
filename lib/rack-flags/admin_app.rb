@@ -39,23 +39,36 @@ module RackFlags
     def call(env)
       request = Rack::Request.new(env)
 
-      case
-      when request.get? then handle_get(env)
-      when request.post? then handle_post(request)
+      if request.path_info.empty?
+        handle_root(request)
       else
-        not_allowed
+        handle_non_root(request)
       end
     end
 
     private
-      def handle_get(env)
-        reader = RackFlags.for_env(env)
 
-        template = ERB.new(File.read(RackFlags.path_for_resource('admin_app/index.html.erb')))
+      def handle_root(request)
+        case 
+        when request.get? then handle_root_get(request)
+        when request.post? then handle_root_post(request)
+        else
+          not_allowed
+        end
+      end
+
+      def handle_root_get(request)
+        reader = RackFlags.for_env(request.env)
+
+        template = ERB.new(resource('index.html.erb'))
 
 
         flag_presenters = reader.full_flags.map{ |flag| FullFlagPresenter.new(flag) }
-        view_model = OpenStruct.new( :flags => flag_presenters )
+        view_model = OpenStruct.new( 
+          :css_href => "#{request.path}/style.css",
+          :flags => flag_presenters
+        )
+
         [
           200, 
           {'Content-Type'=>'text/html'}, 
@@ -63,7 +76,7 @@ module RackFlags
         ]
       end
 
-      def handle_post(request)
+      def handle_root_post(request)
         overrides = request.POST.inject({}) do |overrides, (flag_name, form_param_flag_state)|
           overrides[flag_name.downcase.to_sym] = flag_value_for(form_param_flag_state)
           overrides
@@ -78,8 +91,12 @@ module RackFlags
         response.finish
       end
 
+      def handle_non_root(request)
+        Rack::File.new( RackFlags.path_for_resource('admin_app') ).call(request.env)
+      end
+
       def not_allowed
-        [405, {}, '405 - METHOD NOT ALLOWED']
+        [405, {}, ['405 - METHOD NOT ALLOWED']]
       end
 
       def flag_value_for(form_param_flag_state)
@@ -89,6 +106,14 @@ module RackFlags
             default: nil
         }
         flag_states[form_param_flag_state.to_sym]
+      end
+
+      def resource_root
+        RackFlags.path_for_resource('admin_app')
+      end
+
+      def resource(filename)
+        File.read(RackFlags.path_for_resource(File.join('admin_app',filename)))
       end
 
   end
