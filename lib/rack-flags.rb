@@ -8,8 +8,4 @@ module RackFlags
   def self.for_env(env)
     env[RackMiddleware::ENV_KEY] || Reader.blank_reader
   end
-
-  def self.path_for_resource(subpath)
-    File.expand_path( File.join( "../../resources", subpath ), __FILE__ )
-  end
 end
