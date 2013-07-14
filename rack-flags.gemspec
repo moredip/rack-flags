@@ -4,8 +4,8 @@ require File.expand_path('../lib/rack-flags/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Pete Hodgson", "Ryan Oglesby"]
   gem.email         = ["git@thepete.net"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = 'Simple cookie-based feature flags using Rack'
+  gem.summary       = 'Simple cookie-based feature flags using Rack'
   gem.homepage      = ""
 
   all_files = `git ls-files`.split($\)
