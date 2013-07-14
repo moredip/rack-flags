@@ -50,7 +50,19 @@ run app
 
 ### 4. Check the state of a feature flags when handling a request
 
-For example, if you're using sinatra:
+For example, if you're using Rails you could do:
+
+```ruby
+
+  class SomeController < ApplicationController
+    def some_action
+      features = RackFlags.for_env(env)
+      @show_whizzy_bits = features.on?(:show_new_ui)
+    end
+  end
+```
+
+Or if you're using Sinatra maybe you'd do:
 
 ```ruby
 
