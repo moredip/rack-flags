@@ -1,6 +1,7 @@
 require 'rr'
 require 'pry'
 require 'rack'
+require 'rack/test'
 
 require_relative '../lib/rack-flags'
 

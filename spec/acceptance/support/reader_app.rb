@@ -1,4 +1,5 @@
-require 'sinatra'
+require 'sinatra/base'
+
 class ReaderApp < Sinatra::Base
   enable :raise_errors
   disable :show_exceptions 

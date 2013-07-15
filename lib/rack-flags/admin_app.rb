@@ -36,29 +36,24 @@ module RackFlags
   end
 
   class AdminApp < Sinatra::Base
-    set :public_folder, File.dirname(__FILE__) + '/../../resources/admin_app'
-    set :views,         File.dirname(__FILE__) + '/../../resources/admin_app'
+    set :public_folder, RackFlags.resources_path_for('admin_app')
+    set :views,         RackFlags.resources_path_for('admin_app')
 
     get '/' do
       reader = RackFlags.for_env(request.env)
       flag_presenters = reader.full_flags.map{ |flag| FullFlagPresenter.new(flag) }
 
-      erb :index, locals: {css_href: "#{request.path}/style.css", flags: flag_presenters}
+      erb :index, locals: {css_href: "#{request.path.chomp('/')}/style.css", flags: flag_presenters}
     end
 
     post '/' do
-      overrides = request.POST.inject({}) do |overrides, (flag_name, form_param_flag_state)|
+      overrides = params.inject({}) do |overrides, (flag_name, form_param_flag_state)|
         overrides[flag_name.downcase.to_sym] = flag_value_for(form_param_flag_state)
         overrides
       end
 
-      cookie = CookieCodec.new.generate_cookie_from(overrides)
-
-      response = Rack::Response.new
-      response.redirect(request.script_name, 303)
-      response.set_cookie(CookieCodec::COOKIE_KEY, cookie)
-
-      response.finish
+      response.set_cookie(CookieCodec::COOKIE_KEY, value: CookieCodec.new.generate_cookie_from(overrides))
+      redirect to('/'), 303
     end
 
     private
