@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>rack-flags admin</title>
+  <link href="<%=css_href%>" rel="stylesheet" type="text/css">
+</head>
+<body>
+<h1>rack-flags admin</h1>
+<form method="post">
+  <%flags.each do |flag|%>
+      <section data-flag-name="<%=flag.name%>">
+        <h3><%=flag.name%></h3>
+        <p><%=flag.description%></p>
+        <div>
+          <label class="default">
+            Default (<%=flag.default%>)
+            <input type="radio" name="<%=flag.name%>" value="default" <%=flag.checked_attribute_for(:default)%>/>
+          </label>
+
+          <label class="on">
+            On
+            <input type="radio" name="<%=flag.name%>" value="on" <%=flag.checked_attribute_for(:on)%>/>
+          </label>
+
+          <label class="off">
+            Off
+            <input type="radio" name="<%=flag.name%>" value="off" <%=flag.checked_attribute_for(:off)%>/>
+          </label>
+        </div>
+      </section>
+  <%end%>
+  <input type="submit" value="Update Flags"/>
+</form>
+</body>
+</html>

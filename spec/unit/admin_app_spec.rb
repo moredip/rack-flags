@@ -1,82 +1,38 @@
 require_relative 'spec_helper'
 
 module RackFlags
-
   describe AdminApp do
-    describe '#call' do
-      let(:fake_env) { {} }
-      let(:admin_app) { AdminApp.new }
+    include Rack::Test::Methods
 
-      context 'when the request is a get' do
-        let(:fake_env) { {'REQUEST_METHOD' => 'GET'} }
+    let(:app) { RackFlags::AdminApp }
 
-        it 'returns a successful HTML response' do
-          status, headers, body = admin_app.call(fake_env)
+    describe 'GET' do
+      it 'is a success' do
+        get '/'
 
-          expect(status).to eq(200)
-          expect(headers).to include({'Content-Type' => 'text/html'})
-          expect(body).to_not be_empty
-        end
+        expect(last_response).to be_ok
+        expect(last_response.body).to_not be_empty
+      end
+    end
 
+    describe 'POST' do
+      it 'is a redirect to GET' do
+        post '/'
+
+        expect(last_response.status).to eq(303)
+        expect(last_response.location).to eq('http://example.org/') # Root path - Rack::Test::DEFAULT_HOST is example.org
+        expect(last_response.body).to be_empty
       end
 
-      context 'when the request is a post' do
-        let(:fake_env) { {'REQUEST_METHOD' => 'POST', 'SCRIPT_NAME' => 'admin-app' } }
-
-        before do
-          any_instance_of(Rack::Request) do |rack_request|
-            stub(rack_request).POST { {} }
-          end
+      it 'sets the cookie based on the posted params' do
+        stub.proxy(CookieCodec).new do |cookie_codec|
+          mock(cookie_codec).generate_cookie_from({flag_1: true, flag_2: false, flag_3: nil}) { 'flag_1 !flag_2' }
         end
 
-        it 'returns a 303 redirect response' do
-          status, headers , body = admin_app.call(fake_env)
+        post '/', flag_1: 'on', flag_2: 'off', flag_3: 'default'
 
-          expect(status).to eq(303)
-          expect(headers).to include({'Location' => 'admin-app'})
-          expect(body).to be_empty
-        end
-
-        it 'sets the cookie using the post params' do
-          any_instance_of(Rack::Request) do |rack_request|
-            stub(rack_request).POST { {flag_1: 'on', flag_2: 'off', flag_3: 'default'} }
-          end
-
-          stub.proxy(CookieCodec).new do |cookie_codec|
-            mock(cookie_codec).generate_cookie_from({flag_1: true, flag_2: false, flag_3: nil}) { 'flag_1 !flag2' }
-          end
-
-          any_instance_of(Rack::Response) do |rack_response|
-            mock(rack_response).set_cookie(CookieCodec::COOKIE_KEY, 'flag_1 !flag2')
-          end
-
-          admin_app.call(fake_env)
-        end
-
-        it 'returns the finished response' do
-          stub.proxy(Rack::Response).new do |rack_response|
-            mock(rack_response).finish { 'finished rack response' }
-          end
-
-          response = admin_app.call(fake_env)
-
-          expect(response).to eq('finished rack response')
-        end
-
+        expect(rack_mock_session.cookie_jar[CookieCodec::COOKIE_KEY]).to eq('flag_1 !flag_2')
       end
-
-      context 'when the request is something else' do
-        let(:fake_env) { {'REQUEST_METHOD' => 'OTHER'} }
-
-        it 'returns a 405 method not allowed response' do
-          status, headers , body = admin_app.call(fake_env)
-
-          expect(status).to eq(405)
-          expect(headers).to be_empty
-          expect(body).to eq('405 - METHOD NOT ALLOWED')
-        end
-      end
-
     end
 
   end
