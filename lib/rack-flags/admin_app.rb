@@ -96,7 +96,7 @@ module RackFlags
       end
 
       def not_allowed
-        [405, {}, ['405 - METHOD NOT ALLOWED']]
+        [405, {}, '405 - METHOD NOT ALLOWED']
       end
 
       def flag_value_for(form_param_flag_state)
