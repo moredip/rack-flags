@@ -28,13 +28,22 @@ show_new_ui:
 
 ### 3. Add the RackFlags middleware and admin app to your rack stack
 
-For example, using a `config.ru` along the lines of:
+In a Rails application, first add the middleware in `appliation.rb`
+
+    config.middleware.use RackFlags::RackMiddleware, yaml_path: File.expand_path('../feature_flags.yaml',__FILE__)
+
+Then, mount the AdminApp to some route in `routes.rb`
+
+    mount RackFlags::AdminApp, at: 'some_route'
+
+
+Or, using a `config.ru` something along the lines of:
 
 ```ruby
 require 'rack-flags'
 
 app = Rack::Builder.new do
-  use RackFlags::RackMiddleware, yaml_path: File.expand_path('../flags.yaml',__FILE__)
+  use RackFlags::RackMiddleware, yaml_path: File.expand_path('../feature_flags.yaml',__FILE__)
 
   map '/feature_flags' do
     run RackFlags::AdminApp.new
@@ -56,7 +65,7 @@ For example, if you're using Rails you could do:
 
   class SomeController < ApplicationController
     def some_action
-      features = RackFlags.for_env(env)
+      features = RackFlags.for_env(request.env)
       @show_whizzy_bits = features.on?(:show_new_ui)
     end
   end
