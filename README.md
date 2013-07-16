@@ -30,12 +30,15 @@ show_new_ui:
 
 In a Rails application, first add the middleware in `appliation.rb`
 
-    config.middleware.use RackFlags::RackMiddleware, yaml_path: File.expand_path('../feature_flags.yaml',__FILE__)
+```ruby
+config.middleware.use RackFlags::RackMiddleware, yaml_path: File.expand_path('../feature_flags.yaml',__FILE__)
+```
 
 Then, mount the AdminApp to some route in `routes.rb`
 
-    mount RackFlags::AdminApp, at: 'some_route'
-
+```ruby
+mount RackFlags::AdminApp, at: 'some_route'
+```
 
 Or, using a `config.ru` something along the lines of:
 
