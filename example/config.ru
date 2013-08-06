@@ -20,7 +20,7 @@ class App < Sinatra::Base
       With Local Overrides:<br/>#{final_values.inspect}
       <br/>
       <br/>
-      <a href="feature_flags">Admin Page</a>
+      <a href="admin/feature_flags">Admin Page</a>
     EOS
   end
 end
@@ -28,7 +28,7 @@ end
 app = Rack::Builder.new do
   use RackFlags::RackMiddleware, yaml_path: File.expand_path('../flags.yaml',__FILE__)
 
-  map '/feature_flags' do
+  map '/admin/feature_flags' do
     run RackFlags::AdminApp.new
   end
 

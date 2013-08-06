@@ -52,7 +52,7 @@ module RackFlags
         overrides
       end
 
-      response.set_cookie(CookieCodec::COOKIE_KEY, value: CookieCodec.new.generate_cookie_from(overrides))
+      response.set_cookie(CookieCodec::COOKIE_KEY, value: CookieCodec.new.generate_cookie_from(overrides), path: '/')
       redirect to('/'), 303
     end
 
