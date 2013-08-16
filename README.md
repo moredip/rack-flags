@@ -2,6 +2,8 @@
 
 Simple cookie-based [feature flags](http://martinfowler.com/bliki/FeatureToggle.html) using Rack. 
 
+[![ZOMG SNAP Build Status](https://snap-ci.com/o7uuLFuvOgdCkggpKyYlVDO088LLbnjCnzqT--ViVqI/build_image)](https://snap-ci.com/projects/moredip/rack-flags/build_history)
+
 [![Build Status](https://travis-ci.org/moredip/rack-flags.png?branch=master)](https://travis-ci.org/moredip/rack-flags)
 [![Code Climate](https://codeclimate.com/github/moredip/rack-flags.png)](https://codeclimate.com/github/moredip/rack-flags)
 
