@@ -16,6 +16,11 @@ class AdminPage
     visit @path
   end
 
+  def turn_on_flag_name(flag_name)
+    section_for_flag_named(flag_name).choose('On')
+    update_button.click
+  end
+  
   def turn_off_flag_name(flag_name)
     section_for_flag_named(flag_name).choose('Off')
     update_button.click
