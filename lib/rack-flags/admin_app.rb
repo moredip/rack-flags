@@ -52,7 +52,12 @@ module RackFlags
         overrides
       end
 
-      response.set_cookie(CookieCodec::COOKIE_KEY, value: CookieCodec.new.generate_cookie_from(overrides), path: '/')
+      response.set_cookie(
+        CookieCodec::COOKIE_KEY, 
+        value: CookieCodec.new.generate_cookie_from(overrides), 
+        path: '/',
+        expires: cookie_expiration
+      )
       redirect to('/'), 303
     end
 
@@ -65,6 +70,11 @@ module RackFlags
             default: nil
         }
         flag_states[form_param_flag_state.to_sym]
+      end
+
+      def cookie_expiration
+        # store overrides in the cookie for around for ~5 years from the last time they were modified
+        Time.new( Time.now.year + 5 )
       end
 
   end
