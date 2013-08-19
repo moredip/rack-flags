@@ -16,6 +16,8 @@ Gem::Specification.new do |gem|
   gem.name          = "rack-flags"
   gem.require_paths = ["lib"]
   gem.version       = RackFlags::VERSION
+  
+  gem.license       = "Apache 2.0"
 
   gem.add_dependency( "rake" )
   gem.add_dependency( "rack", ["~>1.4"] )
