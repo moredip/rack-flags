@@ -30,7 +30,7 @@ show_new_ui:
 
 ### 3. Add the RackFlags middleware and admin app to your rack stack
 
-In a Rails application, first add the middleware in `appliation.rb`
+In a Rails application, first add the middleware in `application.rb`
 
 ```ruby
 config.middleware.use RackFlags::RackMiddleware, yaml_path: File.expand_path('../feature_flags.yaml',__FILE__)
