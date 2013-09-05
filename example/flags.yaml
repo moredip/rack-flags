@@ -1,6 +1,15 @@
-foo: 
+allow_foo:
   description: This is my first feature flag
   default: true
-bar: 
-  description: another flag
+bar:
+  description: This is my second feature flag
   default: false
+use_baz:
+  description: This is my third feature flag
+  default: true
+decline_whip:
+  description: This is my fourth feature flag
+  default: false
+have_wiggle:
+  description: This is my fifth feature flag
+  default: true

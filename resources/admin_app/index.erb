@@ -8,28 +8,39 @@
 <h1>rack-flags admin</h1>
 <form method="post">
   <%flags.each do |flag|%>
-      <section data-flag-name="<%=flag.name%>">
-        <h3><%=flag.name%></h3>
-        <p><%=flag.description%></p>
-        <div>
-          <label class="default">
-            Default (<%=flag.default%>)
-            <input type="radio" name="<%=flag.name%>" value="default" <%=flag.checked_attribute_for(:default)%>/>
+      <section id="<%=flag.name%>" data-flag-name="<%=flag.name%>" class="<%=flag.section_class%>">
+        <div class="title">
+          <span class="name"><%=flag.name%></span>
+          <span class="description"><%=flag.description%></span>
+        </div>
+        <div class="state">
+          <label>
+            <input type="radio" name="<%=flag.name%>" value="on" onclick="choose('<%=flag.name%>');" <%=flag.checked_attribute_for(:on)%>/>
+            <span>On <%=flag.default_icon_for(:on) %></span>
           </label>
 
-          <label class="on">
-            On
-            <input type="radio" name="<%=flag.name%>" value="on" <%=flag.checked_attribute_for(:on)%>/>
-          </label>
-
-          <label class="off">
-            Off
-            <input type="radio" name="<%=flag.name%>" value="off" <%=flag.checked_attribute_for(:off)%>/>
+          <label>
+            <input type="radio" name="<%=flag.name%>" value="off" onclick="choose('<%=flag.name%>');" <%=flag.checked_attribute_for(:off)%>/>
+            <span>Off <%=flag.default_icon_for(:off) %></span>
           </label>
         </div>
       </section>
   <%end%>
   <input type="submit" value="Update Flags"/>
 </form>
+
+<script type="text/javascript">
+  function choose(flag_name) {
+      var section = document.getElementById(flag_name);
+      var css_class = section.className;
+
+      if(css_class == "override") {
+          section.className = "";
+      }
+      else {
+          section.className = "override";
+      }
+  }
+</script>
 </body>
 </html>

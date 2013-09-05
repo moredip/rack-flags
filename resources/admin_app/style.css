@@ -3,26 +3,53 @@ body {
 }
 
 section {
-  margin: 20px 20px 40px 20px;
-  padding-bottom: 10px;
-  background-color: lightgray;
-}
-section>* {
-  padding-left: 8px;
+  padding: 10px 0 30px 0;
+  width: 100%;
+  border-top: 1px solid black;
 }
 
-section h3 {
-  background-color: gray;
-  color: white;
-  font-size: 16pt;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  margin: 0;
+section.override {
+  background-color: lightyellow;
 }
 
-section p {
-  margin-top: 0;
+.title {
+  display: inline-block;
+  width: 50%;
+}
+
+.title .name {
+  display: inline-block;
+  font-size: 20px;
+  width: 30%;
+}
+
+.title .description {
   font-style: italic;
+}
+
+.state {
+  display: inline-block;
+}
+
+label {
+  display: inline-block;
+  width: 100px;
+  margin-right: 10px;
+}
+
+.default-icon {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-left: 5px;
+  text-align: center;
+  font-size: 10px;
+  line-height: 16px;
+  border: 1px solid black;
+  border-radius: 11px;
+  -moz-border-radius: 11px;
+  -webkit-border-radius: 11px;
+  background-color: lightblue;
 }
 
 input[type="submit"] {
@@ -33,3 +60,4 @@ input[type="submit"] {
   background-color: #eee;
   border: 1px solid;
 }
+

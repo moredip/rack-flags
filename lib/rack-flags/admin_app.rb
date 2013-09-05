@@ -23,11 +23,31 @@ module RackFlags
       state == selected_state ? 'checked' : ''
     end
 
+    def section_class
+      @full_flag.override.nil? || @full_flag.override == @full_flag.default ? '' : 'override'
+    end
+
+    def default_icon_for(state)
+      state == default_state ? '<span class="default-icon">D</span>' : ''
+    end
+
     private
 
       def selected_state
-        case @full_flag.override
-        when nil then :default
+        override = @full_flag.override
+        if override.nil?
+          state_for @full_flag.default
+        else
+          state_for override
+        end
+      end
+
+      def default_state
+        state_for @full_flag.default
+      end
+
+      def state_for(attribute)
+        case attribute
         when true then :on
         else :off
         end
