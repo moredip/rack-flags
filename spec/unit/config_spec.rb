@@ -57,7 +57,7 @@ module RackFlags
       subject(:flag){ config.flags.first } 
 
       it { should_not be_nil }
-      its(:default) { should be_true }
+      its(:default) { should be_truthy }
       its(:description) { should == "a description" }
     end
   end
