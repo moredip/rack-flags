@@ -25,8 +25,9 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency( "pry-debugger" )
 
-  gem.add_development_dependency( "rspec-core" )
-  gem.add_development_dependency( "rspec-expectations" )
+  gem.add_development_dependency( "rspec" )
+  gem.add_development_dependency( "rspec-its" )
+  gem.add_development_dependency( "rspec-collection_matchers" )
   gem.add_development_dependency( "rr" )
   gem.add_development_dependency( "capybara" )
 end

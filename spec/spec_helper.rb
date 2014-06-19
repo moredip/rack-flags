@@ -2,6 +2,8 @@ require 'rr'
 require 'pry'
 require 'rack'
 require 'rack/test'
+require 'rspec/its'
+require 'rspec/collection_matchers'
 
 require_relative '../lib/rack-flags'
 

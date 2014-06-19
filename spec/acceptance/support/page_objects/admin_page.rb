@@ -60,7 +60,6 @@ class AdminPage
   end
 
   def verify_status_code_is(expected_status_code)
-    status_code.should == expected_status_code
+    expect(status_code).to eql expected_status_code
   end
-
 end

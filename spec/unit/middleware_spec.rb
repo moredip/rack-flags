@@ -1,11 +1,15 @@
 require_relative 'spec_helper'
 
 module RackFlags
-
   describe RackMiddleware do
-
     def mock_out_config_loading
       stub(Config).load(anything){ OpenStruct.new( flags: {} ) }
+    end
+
+    def create_middleware(fake_app = false, additional_args = {})
+      args = {yaml_path: 'blah'}.merge additional_args
+      fake_app ||= Proc.new {}
+      RackMiddleware.new( fake_app, args )
     end
 
     it 'raise an exception if no yaml path is provided' do
@@ -15,18 +19,28 @@ module RackFlags
     end
 
     it 'loads the config from the specified yaml file' do
-      mock(Config).load('some/config/path')
-      RackMiddleware.new( :fake_app, yaml_path: 'some/config/path' )
+      mock(Config).load('some/config/path'){ OpenStruct.new flags: {} }
+      middleware = create_middleware(false, yaml_path: 'some/config/path')
+      middleware.call({})
+    end
+
+    it 'caches configuration by default' do
+      mock(Config).load(anything){ OpenStruct.new( flags: {} ) }
+
+      middleware = create_middleware()
+      middleware.call({})
+      middleware.call({})
+    end
+
+    it 'does not cache if specified' do
+      mock(Config).load(anything).times(2){ OpenStruct.new( flags: {} ) }
+
+      middleware = create_middleware(false, disable_config_caching: true)
+      middleware.call({})
+      middleware.call({})
     end
 
     describe '#call' do
-
-      def create_middleware( fake_app = false)
-        fake_app ||= Proc.new {}
-
-        RackMiddleware.new( fake_app, yaml_path: 'blah' )
-      end
-
       it 'creates a Reader using the config flags when called' do
         stub(Config).load(anything){ OpenStruct.new( flags: 'fake flags from config' ) }
         mock(Reader).new( 'fake flags from config', anything )
@@ -83,5 +97,4 @@ module RackFlags
       end
     end
   end
-
 end
