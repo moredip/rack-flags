@@ -16,14 +16,14 @@ Gem::Specification.new do |gem|
   gem.name          = "rack-flags"
   gem.require_paths = ["lib"]
   gem.version       = RackFlags::VERSION
-  
+
   gem.license       = "Apache 2.0"
 
   gem.add_dependency( "rake" )
-  gem.add_dependency( "rack", ["~>1.4"] )
-  gem.add_dependency( "sinatra", ["~>1.3"] )
+  gem.add_dependency( "rack", ["~> 1.4"] )
+  gem.add_dependency( "sinatra", ["~> 1.3"] )
 
-  gem.add_development_dependency( "pry-debugger" )
+  gem.add_development_dependency( "pry-debugger", ['~> 0.2.2'] )
 
   gem.add_development_dependency( "rspec" )
   gem.add_development_dependency( "rspec-its" )
