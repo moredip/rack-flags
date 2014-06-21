@@ -44,15 +44,15 @@ module RackFlags
       its(:base_flags){ should == {usually_on: true, usually_off: false} }
 
       specify 'on? is true for a flag which is on by default' do
-        subject.on?( :usually_on ).should be_truthy
+        expect(reader.on?(:usually_on)).to be_truthy
       end
 
       specify 'on? is false for a flag which is off by default' do
-        subject.on?( :usually_off ).should be_falsey
+        expect(reader.on?(:usually_off)).to be_falsey
       end
 
       specify 'on? is false for unknown flags' do
-        subject.on?( :unknown_flag ).should be_falsey
+        expect(reader.on?(:unknown_flag)).to be_falsey
       end
 
       it_behaves_like 'full flags that mimic the base flags'
@@ -68,7 +68,7 @@ module RackFlags
       let( :overrides ){ {usually_on: false} }
 
       specify 'on? is false' do
-        subject.on?( :usually_on ).should be_falsey
+        expect(reader.on?(:usually_on)).to be_falsey
       end
 
       it_behaves_like 'full flags that mimic the base flags'
@@ -84,7 +84,7 @@ module RackFlags
       let( :overrides ){ {no_base: true} }
 
       specify 'on? is false' do
-        subject.on?( :no_base ).should be_falsy
+        expect(reader.on?(:no_base)).to be_falsy
       end
 
       it_behaves_like 'full flags that mimic the base flags'

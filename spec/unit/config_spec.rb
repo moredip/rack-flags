@@ -1,7 +1,7 @@
 require_relative 'spec_helper'
 
 module RackFlags
- 
+
   describe Config do
     let( :config_file ) { Tempfile.new('rack-flags-config-unit-test') }
     let( :yaml ) { raise NotImplementedError }
@@ -21,7 +21,7 @@ module RackFlags
     context 'regular yaml' do
       let(:yaml) do
         <<-EOS
-        foo: 
+        foo:
           description: the description
           default: true
         bar:
@@ -31,30 +31,30 @@ module RackFlags
       end
 
       it 'loads a set of BaseFlags' do
-        config.should have(2).flags
-        config.flags.map(&:name) .should =~ [:foo,:bar]
-        config.flags.map(&:description).should =~ ["the description","another description"]
-        config.flags.map(&:default).should =~ [true,false]
+        expect(config).to have(2).flags
+        expect(config.flags.map(&:name)).to include(:foo, :bar)
+        expect(config.flags.map(&:description)).to include('the description', 'another description')
+        expect(config.flags.map(&:default)).to include(true, false)
       end
     end
 
     context 'empty file' do
       let(:yaml){ "" }
       it 'loads as an empty config' do
-        config.should have(0).flags
+        expect(config).to have(0).flags
       end
     end
 
     context 'symbolized yaml' do
       let :yaml do
         <<-EOS
-          :foo: 
+          :foo:
             :default: true
             :description: a description
         EOS
       end
 
-      subject(:flag){ config.flags.first } 
+      subject(:flag){ config.flags.first }
 
       it { should_not be_nil }
       its(:default) { should be_truthy }

@@ -20,14 +20,14 @@ class AdminPage
     section_for_flag_named(flag_name).choose('On')
     update_button.click
   end
-  
+
   def turn_off_flag_name(flag_name)
     section_for_flag_named(flag_name).choose('Off')
     update_button.click
   end
 
 
-  def update_button 
+  def update_button
     page.find('input[type="submit"]')
   end
 
@@ -40,21 +40,21 @@ class AdminPage
 
     case expected_state.to_sym
     when :default
-      section.find('label.default input').should be_checked
+      expect(section.find('label.default input')).to be_checked
 
-      section.find('label.on input').should_not be_checked
-      section.find('label.off input').should_not be_checked
+      expect(section.find('label.on input')).to_not be_checked
+      expect(section.find('label.off input')).to_not be_checked
     when :on
-      section.find('label.on input').should be_checked
+      expect(section.find('label.on input')).to be_checked
 
-      section.find('label.default input').should_not be_checked
-      section.find('label.off input').should_not be_checked
+      expect(section.find('label.default input')).to_not be_checked
+      expect(section.find('label.off input')).to_not be_checked
     when :off
-      section.find('label.off input').should be_checked
+      expect(section.find('label.off input')).to be_checked
 
-      section.find('label.default input').should_not be_checked
-      section.find('label.on input').should_not be_checked
-    else 
+      expect(section.find('label.default input')).to_not be_checked
+      expect(section.find('label.on input')).to_not be_checked
+    else
       raise "unrecognized state '#{expected_state}'"
     end
   end

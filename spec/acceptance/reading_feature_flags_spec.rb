@@ -23,7 +23,7 @@ describe 'reading feature flags in an app' do
   context 'no base flags, no overrides' do
     it 'should interpret both foo and bar as off by default' do
       get '/'
-      last_response.body.should == 'foo is off; bar is off'
+      expect(last_response.body).to eql 'foo is off; bar is off'
     end
   end
 
@@ -36,7 +36,7 @@ describe 'reading feature flags in an app' do
 
     it 'should interpret foo as on and bar as off' do
       get '/'
-      last_response.body.should == 'foo is on; bar is off'
+      expect(last_response.body).to eql 'foo is on; bar is off'
     end
   end
 
@@ -50,7 +50,7 @@ describe 'reading feature flags in an app' do
 
     it 'should interpret foo as off and bar as on' do
       get '/'
-      last_response.body.should == 'foo is off; bar is on'
+      expect(last_response.body).to eql 'foo is off; bar is on'
     end
   end
 
@@ -66,7 +66,7 @@ describe 'reading feature flags in an app' do
 
     it 'should interpret foo as on and bar as off' do
       get '/'
-      last_response.body.should == 'foo is on; bar is off'
+      expect(last_response.body).to eql 'foo is on; bar is off'
     end
   end
 

@@ -17,11 +17,11 @@ class ReaderPage
   end
 
   def verify_flag_is_off(flag_name)
-    page.should have_content("#{flag_name} is off")
+    expect(page).to have_content("#{flag_name} is off")
   end
 
   def verify_flag_is_on(flag_name)
-    page.should have_content("#{flag_name} is on")
+    expect(page).to have_content("#{flag_name} is on")
   end
 
 end

@@ -38,16 +38,16 @@ describe 'displaying flags in admin app' do
   it 'renders the feature flag name, default and description' do
     AdminPage.visiting do |page|
       on_flag_section = page.section_for_flag_named('on_by_default')
-      on_flag_section.should_not be_nil
-      on_flag_section.find('h3').text.should == 'on_by_default'
-      on_flag_section.find('p').text.should == 'this flag on by default'
-      on_flag_section.find('label.default').text.should include('Default (On)')
+      expect(on_flag_section).to_not be_nil
+      expect(on_flag_section.find('h3').text).to eq 'on_by_default'
+      expect(on_flag_section.find('p').text).to eq 'this flag on by default'
+      expect(on_flag_section.find('label.default').text).to include('Default (On)')
 
       off_flag_section = page.section_for_flag_named('off_by_default')
-      off_flag_section.should_not be_nil
-      off_flag_section.find('h3').text.should == 'off_by_default'
-      off_flag_section.find('p').text.should == 'this flag off by default'
-      off_flag_section.find('label.default').text.should include('Default (Off)')
+      expect(off_flag_section).to_not be_nil
+      expect(off_flag_section.find('h3').text).to eq 'off_by_default'
+      expect(off_flag_section.find('p').text).to eq 'this flag off by default'
+      expect(off_flag_section.find('label.default').text).to include('Default (Off)')
     end
   end
 

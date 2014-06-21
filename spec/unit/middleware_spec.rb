@@ -13,9 +13,9 @@ module RackFlags
     end
 
     it 'raise an exception if no yaml path is provided' do
-      lambda{
+      expect {
         RackMiddleware.new( :fake_app, {} )
-      }.should raise_error( ArgumentError, 'yaml_path must be provided' )
+      }.to raise_error( ArgumentError, 'yaml_path must be provided' )
     end
 
     it 'loads the config from the specified yaml file' do
@@ -57,14 +57,13 @@ module RackFlags
         middleware = create_middleware()
         fake_env = {}
         middleware.call( fake_env )
-        fake_env[RackMiddleware::ENV_KEY].should == 'fake derived flags'
+        expect(fake_env[RackMiddleware::ENV_KEY]).to eq 'fake derived flags'
       end
 
       it 'reads overrides from cookies' do
         mock_out_config_loading
 
         fake_env = { fake: 'env' }
-
 
         fake_cookie_codec = mock( Object.new )
         mock(CookieCodec).new{ fake_cookie_codec }
@@ -87,13 +86,13 @@ module RackFlags
         mock_out_config_loading
 
         fake_app ||= Proc.new do
-          "downstream app response"
+          'downstream app response'
         end
 
         middleware = create_middleware( fake_app )
         middleware_response = middleware.call( {} )
 
-        middleware_response.should == "downstream app response"
+        expect(middleware_response).to eq 'downstream app response'
       end
     end
   end
