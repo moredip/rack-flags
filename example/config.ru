@@ -26,7 +26,7 @@ class App < Sinatra::Base
 end
 
 app = Rack::Builder.new do
-  use RackFlags::RackMiddleware, yaml_path: File.expand_path('../flags.yaml',__FILE__)
+  use RackFlags::RackMiddleware, yaml_path: File.expand_path('../flags.yaml',__FILE__), disable_config_caching: true
 
   map '/admin/feature_flags' do
     run RackFlags::AdminApp.new
